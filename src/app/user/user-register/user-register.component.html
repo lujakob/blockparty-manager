@@ -1,0 +1,56 @@
+<!-- REGISTER PANEL -->
+
+<ng-container *ngIf="loading">
+	<app-loading></app-loading>
+</ng-container>
+
+
+<div *ngIf="!loading" class="register-panel">
+	<mat-card>
+		<mat-card-content>
+
+			<mat-toolbar>
+				<button mat-icon-button routerLink="/user/login">
+					<mat-icon>keyboard_arrow_left</mat-icon>
+					<span>zurück</span>
+				</button> &nbsp;
+			</mat-toolbar>
+
+			<div class="card-real-content">
+				<div class="form-container">
+					<mat-form-field>
+						<input matInput placeholder="Username" [formControl]="form.username" required>
+						<mat-error *ngIf="form.username.invalid">
+							Der Name muss zwischen 5 und 25 Zeichen haben.
+						</mat-error>
+					</mat-form-field>
+
+					<mat-form-field>
+						<input matInput placeholder="E-mail" [formControl]="form.email" required>
+						<mat-error *ngIf="form.email.invalid">
+							Keine gültige Email.
+						</mat-error>
+					</mat-form-field>
+
+					<mat-form-field>
+						<input matInput type="password" placeholder="Passwort" [formControl]="form.password" required>
+						<mat-error *ngIf="form.password.invalid">
+							Das Passwort muss mindestens 6 Zeichen haben.
+						</mat-error>
+					</mat-form-field>
+				</div>
+
+				<div class="buttons-container">
+					<div class="button-row">
+						<span class="fill-space"></span>
+						<button mat-raised-button class="register-button" color="primary" (click)="onRegister()">Registrieren</button>
+					</div>
+				</div>
+			</div>
+
+		</mat-card-content>
+	</mat-card>
+</div>
+
+
+

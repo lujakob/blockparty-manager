@@ -1,0 +1,19 @@
+app-user-profile {
+  mat-button-toggle-group {
+    margin: 12px;
+  }
+
+  .cdk-column-category {
+    flex-grow: 3;
+  }
+  .cdk-column-title {
+    flex-grow: 3;
+  }
+  .cdk-column-delte {
+    flex-grow: 1;
+  }
+
+  .mat-icon.is-disabled {
+    opacity: 0.2;
+  }
+}

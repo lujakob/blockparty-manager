@@ -1,0 +1,20 @@
+<mat-menu y-position="below" #appMenu="matMenu">
+	<button mat-menu-item routerLink="user/profile"> Profil </button>
+	<button mat-menu-item (click)="onLogout()"> Logout </button>
+</mat-menu>
+<mat-toolbar *ngIf="showNavbar" color="primary" class="nav-top header-shadow">
+	<span class="navBar-title" routerLink="/">{{title}}</span>
+
+	<button mat-button routerLink="/airdrop">
+		Airdrops
+	</button>
+
+	<span class="fill-remaining-space"></span>
+
+	<button mat-button [matMenuTriggerFor]="appMenu">
+		<span>
+			<i class="fa fa-user"></i>
+			{{userName}}
+		</span>
+	</button>
+</mat-toolbar>

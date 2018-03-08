@@ -6,11 +6,11 @@
 export const environment = {
   production: false,
   firebaseConfig: {
-    apiKey: 'AIzaSyBajZF0UgCmdo6IhJ0PRdp0Hv-YgUWCoKM',
-    authDomain: 'blockparty-manager.firebaseapp.com',
-    databaseURL: 'https://blockparty-manager.firebaseio.com',
-    projectId: 'blockparty-manager',
-    storageBucket: '',
-    messagingSenderId: '777910149869'
+    apiKey: "",
+    authDomain: "",
+    databaseURL: "",
+    projectId: "",
+    storageBucket: "",
+    messagingSenderId: ""
   }
 };

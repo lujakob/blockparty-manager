@@ -1,0 +1,54 @@
+<mat-button-toggle-group #group="matButtonToggleGroup" (change)="switchContent($event)" >
+	<mat-button-toggle value="REQUESTS" [checked]="true">
+		Anfragen
+	</mat-button-toggle>
+	<mat-button-toggle value="ASSETS">
+		Meine Assets
+	</mat-button-toggle>
+</mat-button-toggle-group>
+
+<ng-template [ngIf]="group.value === 'ASSETS'">
+	<mat-table #table [dataSource]="assets">
+
+		<!-- Name Column -->
+		<ng-container matColumnDef="title">
+			<mat-header-cell *matHeaderCellDef> Titel </mat-header-cell>
+			<mat-cell *matCellDef="let element" (click)="onClick(element)"> {{element.title}} </mat-cell>
+		</ng-container>
+
+		<!-- Category Column -->
+		<ng-container matColumnDef="category">
+			<mat-header-cell *matHeaderCellDef> Kategorie </mat-header-cell>
+			<mat-cell *matCellDef="let element" (click)="onClick(element)"> {{element.category.title}} </mat-cell>
+		</ng-container>
+
+		<!-- Holder Column -->
+		<ng-container matColumnDef="holder">
+			<mat-header-cell *matHeaderCellDef> Besitzer </mat-header-cell>
+			<mat-cell *matCellDef="let element" (click)="onClick(element)"> {{element.holder.name}} </mat-cell>
+		</ng-container>
+
+		<!-- Delete Column -->
+		<ng-container matColumnDef="delete">
+			<mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+			<mat-cell *matCellDef="let element"><mat-icon (click)="delete(element)" [class.is-disabled]="isDisabled(element)">delete</mat-icon></mat-cell>
+		</ng-container>
+
+		<mat-header-row *matHeaderRowDef="assetsColumns"></mat-header-row>
+		<mat-row *matRowDef="let row; columns: assetsColumns;"></mat-row>
+	</mat-table>
+</ng-template>
+
+<ng-template [ngIf]="group.value === 'REQUESTS'">
+	<mat-table #table [dataSource]="requests">
+
+		<!-- Name Column -->
+		<ng-container matColumnDef="inventoryTitle">
+			<mat-header-cell *matHeaderCellDef> Titel </mat-header-cell>
+			<mat-cell *matCellDef="let element"> {{element.inventoryTitle}} </mat-cell>
+		</ng-container>
+
+		<mat-header-row *matHeaderRowDef="requestsColumns"></mat-header-row>
+		<mat-row *matRowDef="let row; columns: requestsColumns;" (click)="onClick(row)"></mat-row>
+	</mat-table>
+</ng-template>

@@ -10,7 +10,7 @@ export class ToolbarTopComponent implements OnInit {
 
   public showNavbar: boolean = true;
   public userName: string = '';
-  public title: string = 'Hausverleih';
+  public title: string = 'Blockparty';
 
   constructor(private auth: AuthService) { }
 
@@ -18,10 +18,10 @@ export class ToolbarTopComponent implements OnInit {
     this.auth.user
       .do(user => this.userName = (user && user.displayName) ? user.displayName : '')
       .map(user => !!user)
-      .subscribe(isLogged => this.showNavbar = isLogged)
+      .subscribe(isLogged => this.showNavbar = isLogged);
   }
 
   onLogout() {
-    this.auth.signOut()
+    this.auth.signOut();
   }
 }

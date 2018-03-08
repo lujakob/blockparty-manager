@@ -11,10 +11,7 @@
 
 	<span class="fill-remaining-space"></span>
 
-	<button mat-button [matMenuTriggerFor]="appMenu">
-		<span>
-			<i class="fa fa-user"></i>
-			{{userName}}
-		</span>
+	<button class="user-btn" mat-button [matMenuTriggerFor]="appMenu">
+    <mat-icon>person</mat-icon> <span>{{userName}}</span>
 	</button>
 </mat-toolbar>

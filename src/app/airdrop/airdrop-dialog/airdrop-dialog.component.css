@@ -1,0 +1,12 @@
+.close-btn {
+  position: absolute;
+  top:0;
+  right: 0;
+  min-width: 50px;
+  padding: 0;
+}
+
+.title {
+  font-weight: 500;
+  margin-bottom: 8px;
+}

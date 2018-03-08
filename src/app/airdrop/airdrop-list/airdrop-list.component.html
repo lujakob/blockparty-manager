@@ -28,6 +28,6 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onClick(row)"></mat-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" [class.user-is-holder]="row.userIsHolder" (click)="onClick(row)"></mat-row>
   </mat-table>
 </div>

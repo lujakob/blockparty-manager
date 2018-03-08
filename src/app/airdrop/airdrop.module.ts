@@ -5,6 +5,7 @@ import { AirdropRoutingModule } from './airdrop-routing.module';
 import { AirdropListComponent } from './airdrop-list/airdrop-list.component';
 import { MaterialModule } from '../shared/material.module';
 import { AirdropCreateComponent } from './airdrop-create/airdrop-create.component';
+import { AirdropDialogComponent } from './airdrop-dialog/airdrop-dialog.component';
 
 @NgModule({
   imports: [
@@ -12,6 +13,7 @@ import { AirdropCreateComponent } from './airdrop-create/airdrop-create.componen
     MaterialModule,
     AirdropRoutingModule
   ],
-  declarations: [AirdropListComponent, AirdropCreateComponent]
+  declarations: [AirdropListComponent, AirdropCreateComponent, AirdropDialogComponent],
+  entryComponents: [AirdropDialogComponent]
 })
 export class AirdropModule { }

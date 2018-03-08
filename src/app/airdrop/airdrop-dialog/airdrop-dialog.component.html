@@ -1,0 +1,26 @@
+<button mat-button (click)="onClose()" class="close-btn"><mat-icon>close</mat-icon></button>
+
+<div mat-dialog-content>
+
+	<div class="title">{{data.airdrop.title}}</div>
+
+  <p *ngIf="userIsHolder && view === 'OLD'">Aktuelle Referral Link:<br>{{data.airdrop.currentReferral}}</p>
+  <form [formGroup]="form" *ngIf="userIsHolder && view === 'NEW'">
+    <mat-form-field>
+      <input matInput [formControlName]="'referralLink'" type="text" placeholder="Referral Link">
+    </mat-form-field>
+  </form>
+
+</div>
+<div mat-dialog-actions>
+  <div *ngIf="view === 'OLD'">
+    <button mat-button (click)="onClaimAirdrop()" cdkFocusInitial *ngIf="!userIsHolder">Übernehmen</button>
+    <button mat-button (click)="onLiberateAirdrop()" *ngIf="userIsHolder">Freigeben</button>
+    <button mat-button (click)="view = 'NEW'" *ngIf="userIsHolder">Weitergeben</button>
+  </div>
+  <div *ngIf="userIsHolder && view === 'NEW'">
+    <button mat-button (click)="view = 'OLD'">zurück</button>
+    <button mat-button (click)="onReferralSave()">Speichern</button>
+  </div>
+
+</div>

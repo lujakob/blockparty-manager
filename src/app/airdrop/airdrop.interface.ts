@@ -3,13 +3,19 @@ export interface IAirdropUser {
   username: string;
 }
 
+export interface IAirdropHolder {
+  id: string;
+  username: string;
+  created?: Date;
+}
+
 export interface IAirdropItem {
   createdAt?: Date;
   updatedAt?: Date;
   title: string;
   projectLink: string;
   creator: IAirdropUser;
-  holder?: IAirdropUser;
+  holder?: IAirdropHolder;
   currentReferral: string;
   referrals?: string;
   state: number;

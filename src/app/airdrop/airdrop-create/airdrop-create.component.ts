@@ -6,7 +6,7 @@ import { FirestoreService } from '../../shared/services/firestore.service';
 import { AuthService } from '../../auth/auth.service';
 import { User } from '../../user/user';
 import { Router } from '@angular/router';
-import { IAirdropItem, IReferral } from '../airdrop.interface';
+import { IAirdrop, IReferral } from '../airdrop.interface';
 
 export enum AIRDROP_STATE {
   OPEN,
@@ -47,6 +47,10 @@ export class AirdropCreateComponent implements OnInit {
       .then( data => {
         const docId = data.id;
 
+        this.router.navigate(['airdrop']);
+        this.snackBar.open('New airdrop created.', '', { duration: 2000 });
+
+        /*
         this.firestoreService
           .add(`airdrops/${docId}/referrals`, this.buildReferral())
           .then( referral => {
@@ -55,11 +59,12 @@ export class AirdropCreateComponent implements OnInit {
 
           })
           .catch(e => console.log(e));
+          */
       })
       .catch(e => console.log(e));
   }
 
-  buildAirdrop(): IAirdropItem {
+  buildAirdrop(): IAirdrop {
     const values = this.itemForm;
     const user = {id: this.user.uid, username: this.user.displayName};
 

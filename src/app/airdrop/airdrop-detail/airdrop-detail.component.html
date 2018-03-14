@@ -1,0 +1,12 @@
+<div *ngIf="airdrop">
+  <p>
+    airdrop-detail works!
+  </p>
+  <p>{{airdrop.title}}</p>
+</div>
+<div class="claim-link" (click)="onClick(airdrop)">Claim latest airdrop</div>
+<div *ngIf="referrals">
+  <div class="referral-item" *ngFor="let referral of referrals">
+    <div class="link">{{referral.user.username}} - {{referral.referral}}</div>
+  </div>
+</div>

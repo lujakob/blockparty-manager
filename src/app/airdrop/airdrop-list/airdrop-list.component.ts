@@ -1,11 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { Router } from '@angular/router';
-import { IAirdropItem } from '../airdrop.interface';
+import { IAirdrop } from '../airdrop.interface';
 import 'rxjs/add/operator/switchMap';
 import { MatDialog } from '@angular/material';
-import { AirdropDialogComponent } from '../airdrop-dialog/airdrop-dialog.component';
 import { AuthService } from '../../auth/auth.service';
 import { User } from '../../user/user';
 
@@ -20,7 +18,7 @@ export class AirdropListComponent implements OnInit {
   private user: User;
 
   public displayedColumns = ['title', 'creator'];
-  public dataSource: IAirdropItem[] = [];
+  public dataSource: IAirdrop[] = [];
 
   constructor(
     private firestoreService: FirestoreService,
@@ -30,13 +28,18 @@ export class AirdropListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.auth.user.subscribe((user: User) => this.user = user);
-
-    this.firestoreService
-      .colWithIds$('airdrops', ref => ref.orderBy('createdAt', 'asc'))
-      .subscribe(data => {
+    this.auth.user
+      .switchMap((user: User) => {
+        this.user = user;
+        return this.firestoreService.colWithIds$(
+          'airdrops',
+          ref => ref.orderBy('createdAt', 'desc')
+        );
+      })
+      .subscribe((data: IAirdrop[]) => {
         this.dataSource = this.addUserIsHolder(data);
       });
+
   }
 
   addUserIsHolder(data) {
@@ -47,17 +50,7 @@ export class AirdropListComponent implements OnInit {
   }
 
   onClick(airdrop) {
-    console.log(airdrop);
-    const dialogRef = this.dialog.open(AirdropDialogComponent, {
-      width: '300px',
-      data: {airdrop, user: this.user}
-    });
-
-    dialogRef.afterClosed().subscribe((data) => {
-      console.log(data);
-    });
-
-    // this.router.navigate(['inventory', row.id])
+    this.router.navigate(['airdrop/detail', airdrop.id]);
   }
 
 }

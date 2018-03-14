@@ -9,7 +9,7 @@ export interface IAirdropHolder {
   created?: Date;
 }
 
-export interface IAirdropItem {
+export interface IAirdrop {
   createdAt?: Date;
   updatedAt?: Date;
   title: string;

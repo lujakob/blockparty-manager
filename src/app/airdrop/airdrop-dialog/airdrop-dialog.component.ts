@@ -26,9 +26,9 @@ export class AirdropDialogComponent implements OnInit {
       });
 
       this.firestoreService
-        .doc$(`airdrops/${this.data.airdrop.id}`)
+        .doc$(`airdrops/${this.data.id}`)
         .subscribe(airdrop => {
-          this.data.airdrop = Object.assign(airdrop, {id: this.data.airdrop.id});
+          this.data.airdrop = Object.assign(airdrop, {id: this.data.id});
 
           this.userIsHolder = !!this.data.airdrop.holder && this.data.user.uid === this.data.airdrop.holder.id;
 
@@ -54,25 +54,28 @@ export class AirdropDialogComponent implements OnInit {
 
   onReferralSave() {
 
+    const oldReferralLink = this.data.airdrop.currentReferral;
+
     const referral = this.form.get('referralLink').value;
     if (referral) {
-      const data = {holder: null, update: new Date(), currentReferral: referral};
-      this.updateAirdrop(data);
+      const airdropData = {holder: null, currentReferral: referral};
+      this.updateAirdrop(airdropData);
 
 
       const ref = `airdrops/${this.data.airdrop.id}/referrals`;
+      const referralData = {
+        user: this.buildCurrentHolder(),
+        referral: oldReferralLink
+      };
       this.firestoreService
-        .add(ref, this.buildCurrentHolder())
+        .add(ref, referralData)
         .then(() => {
           this.form.patchValue({referralLink: ''});
           this.dialogRef.close();
-          console.log('referral updated');
+          console.log('referral saved', referralData);
         })
         .catch((e) => console.log(e));
-
-
     }
-
   }
 
   buildCurrentHolder(): IAirdropHolder {

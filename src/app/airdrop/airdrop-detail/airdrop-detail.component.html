@@ -1,12 +1,26 @@
-<div *ngIf="airdrop">
-  <p>
-    airdrop-detail works!
-  </p>
-  <p>{{airdrop.title}}</p>
-</div>
-<div class="claim-link" (click)="onClick(airdrop)">Claim latest airdrop</div>
-<div *ngIf="referrals">
-  <div class="referral-item" *ngFor="let referral of referrals">
-    <div class="link">{{referral.user.username}} - {{referral.referral}}</div>
-  </div>
+<div class="pa3">
+  <mat-card *ngIf="airdrop">
+    <mat-card-header>
+      {{airdrop.title}}
+    </mat-card-header>
+    <mat-card-content class="mt4">
+      <button mat-raised-button class="w-100" (click)="onClick(airdrop)" *ngIf="!userIsHolder">Claim latest referral</button>
+
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="referrals" class="mt4">
+    <mat-card-header>
+      <mat-card-title>
+        Referrals
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="referral-item pb2 mb2" *ngFor="let referral of referrals">
+        <div class="link truncate">{{referral.user.username}}</div>
+        <div class="username truncate strike">{{referral.referral}}</div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
 </div>

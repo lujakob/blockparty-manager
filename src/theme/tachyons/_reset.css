@@ -1,0 +1,6 @@
+/*
+  Reset styles - custom
+*/
+:focus {
+  outline:none;
+}

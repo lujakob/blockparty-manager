@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { IAirdrop } from '../airdrop.interface';
 import { AuthService } from '../../auth/auth.service';
@@ -12,7 +12,8 @@ import 'rxjs/add/operator/switchMap';
 @Component({
   selector: 'app-airdrop-detail',
   templateUrl: './airdrop-detail.component.html',
-  styleUrls: ['./airdrop-detail.component.css']
+  styleUrls: ['./airdrop-detail.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AirdropDetailComponent implements OnInit {
 
@@ -35,7 +36,6 @@ export class AirdropDetailComponent implements OnInit {
     this.route.paramMap
       .map((params: ParamMap) => params.get('id') || '')
       .subscribe(id => {
-        console.log("id", id);
         Observable.combineLatest(
           this.firestoreService.col$(
             `airdrops/${id}/referrals`,

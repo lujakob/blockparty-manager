@@ -1,0 +1,22 @@
+@import '../../../theme/variables.scss';
+
+app-airdrop-detail {
+  .referral-item {
+    border-bottom: 1px solid $c-black-12;
+    display: flex;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .link {
+      width: 50%;
+    }
+    .username {
+      width: 50%;
+    }
+  }
+  .mat-card-header-text {
+    margin: 0;
+  }
+}

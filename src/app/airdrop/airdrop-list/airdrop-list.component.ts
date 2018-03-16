@@ -44,7 +44,6 @@ export class AirdropListComponent implements OnInit {
   }
 
   transformData(data) {
-    console.log(data);
     return data.map(item => {
       item = Object.assign(item, {
         userIsHolder: this.userIsHolder(item),

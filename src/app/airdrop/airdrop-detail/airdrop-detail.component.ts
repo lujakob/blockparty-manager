@@ -9,6 +9,8 @@ import {AirdropDialogComponent} from '../airdrop-dialog/airdrop-dialog.component
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/combineLatest';
 import 'rxjs/add/operator/switchMap';
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-airdrop-detail',
   templateUrl: './airdrop-detail.component.html',
@@ -21,6 +23,8 @@ export class AirdropDetailComponent implements OnInit {
   public referrals: any[];
   public user: User;
   private id: string;
+  public blockedByOtherUser: boolean = false;
+  public blockedByMe: boolean = false;
 
   constructor(
     private firestoreService: FirestoreService,
@@ -36,6 +40,8 @@ export class AirdropDetailComponent implements OnInit {
     this.route.paramMap
       .map((params: ParamMap) => params.get('id') || '')
       .subscribe(id => {
+        this.id = id;
+
         Observable.combineLatest(
           this.firestoreService.col$(
             `airdrops/${id}/referrals`,
@@ -46,10 +52,25 @@ export class AirdropDetailComponent implements OnInit {
         .subscribe(([referrals, airdrop]) => {
           this.referrals = referrals;
           this.airdrop = airdrop;
+          this.blockedByOtherUser = !!this.airdrop.holder && this.airdrop.holder.id !== this.user.uid;
+          this.blockedByMe = !!this.airdrop.holder && this.airdrop.holder.id === this.user.uid;
         });
       });
 
   }
+
+  isBlockedBy() {
+    if (this.airdrop.holder && this.airdrop.holder.username) {
+      const now = new moment();
+      const created = new moment(this.airdrop.holder.created);
+      const duration = Math.ceil(moment.duration(now.diff(created)).asMinutes());
+
+      return this.airdrop.holder.username + ` (${duration} mins)`;
+    } else {
+      return '';
+    }
+  }
+
 
   onClick(airdrop) {
 

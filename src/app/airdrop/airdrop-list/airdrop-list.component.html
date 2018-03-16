@@ -24,7 +24,13 @@
     <!-- Creator Column -->
     <ng-container matColumnDef="creator">
       <mat-header-cell *matHeaderCellDef> Created </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.createdAt | date: 'dd.MM.yyyy'}} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{element.createdAt | date: 'dd.MM.yy'}} </mat-cell>
+    </ng-container>
+
+    <!-- State Column -->
+    <ng-container matColumnDef="state">
+      <mat-header-cell *matHeaderCellDef> State </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.state}} </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

@@ -6,6 +6,7 @@ import 'rxjs/add/operator/switchMap';
 import { MatDialog } from '@angular/material';
 import { AuthService } from '../../auth/auth.service';
 import { User } from '../../user/user';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-airdrop-list',
@@ -17,7 +18,7 @@ export class AirdropListComponent implements OnInit {
 
   private user: User;
 
-  public displayedColumns = ['title', 'creator'];
+  public displayedColumns = ['title', 'creator', 'state'];
   public dataSource: IAirdrop[] = [];
 
   constructor(
@@ -37,16 +38,36 @@ export class AirdropListComponent implements OnInit {
         );
       })
       .subscribe((data: IAirdrop[]) => {
-        this.dataSource = this.addUserIsHolder(data);
+        this.dataSource = this.transformData(data);
       });
 
   }
 
-  addUserIsHolder(data) {
+  transformData(data) {
+    console.log(data);
     return data.map(item => {
-      item = Object.assign(item, {userIsHolder: !!item.holder && this.user.uid === item.holder.id});
+      item = Object.assign(item, {
+        userIsHolder: this.userIsHolder(item),
+        state: this.itemState(item)
+      });
       return item;
     });
+  }
+
+  userIsHolder(item) {
+    return !!item.holder && this.user.uid === item.holder.id;
+  }
+
+  itemState(item) {
+    if (item.holder && item.holder.username) {
+      const now = new moment();
+      const created = new moment(item.holder.created);
+      const duration = Math.ceil(moment.duration(now.diff(created)).asMinutes());
+
+      return item.holder.username + ` (${duration} mins)`;
+    }
+
+    return 'open';
   }
 
   onClick(airdrop) {

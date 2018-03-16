@@ -29,7 +29,6 @@ export class AirdropDialogComponent implements OnInit {
         .doc$(`airdrops/${this.data.id}`)
         .subscribe(airdrop => {
           this.data.airdrop = Object.assign(airdrop, {id: this.data.id});
-
           this.userIsHolder = !!this.data.airdrop.holder && this.data.user.uid === this.data.airdrop.holder.id;
 
         });

@@ -4,7 +4,16 @@
       {{airdrop.title}}
     </mat-card-header>
     <mat-card-content class="mt4">
-      <button mat-raised-button class="w-100" (click)="onClick(airdrop)" *ngIf="!userIsHolder">Claim latest referral</button>
+      <div *ngIf="!blockedByOtherUser">
+        <button mat-raised-button class="w-100" (click)="onClick(airdrop)">
+          <span *ngIf="blockedByMe">Update referral state</span>
+          <span *ngIf="!blockedByMe">Claim latest referral</span>
+        </button>
+      </div>
+      <div *ngIf="blockedByOtherUser">
+        Currently blocked by {{isBlockedBy()}}
+      </div>
+
 
     </mat-card-content>
   </mat-card>

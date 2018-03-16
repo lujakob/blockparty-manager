@@ -6,8 +6,8 @@
   <span class="fill-remaining-space"></span>
 </mat-toolbar>
 
-<div>
 
+<ng-container *ngIf="dataSource.length">
   <mat-table #table [dataSource]="dataSource">
 
     <!--- Note that these columns can be defined in any order.
@@ -36,4 +36,10 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;" [class.user-is-holder]="row.userIsHolder" (click)="onClick(row)"></mat-row>
   </mat-table>
-</div>
+</ng-container>
+
+<ng-container *ngIf="!dataSource.length">
+  <div class="pa3">
+    <p>No airdrops available.</p>
+  </div>
+</ng-container>

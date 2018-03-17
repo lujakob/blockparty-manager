@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 import { ToolbarTopComponent } from './components/toolbar-top/toolbar-top.component';
 import { MatMenuModule, MatToolbarModule, MatButtonModule, MatIconModule } from '@angular/material';
 import { AuthModule } from './auth/auth.module';
-
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { environment } from '../environments/environment';

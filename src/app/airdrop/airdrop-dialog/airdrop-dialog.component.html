@@ -2,25 +2,27 @@
 
 <div mat-dialog-content>
 
-	<div class="title">{{data.airdrop.title}}</div>
+	<div class="title">{{data.airdrop.title}} referral link</div>
 
-  <p *ngIf="userIsHolder && view === 'OLD'">Aktuelle Referral Link:<br>{{data.airdrop.currentReferral}}</p>
+  <div *ngIf="userIsHolder && view === 'OLD'" class="referral-container">
+    <div class="referral-link mt3" (click)="onCopyClipboard(data.airdrop.currentReferral)">{{data.airdrop.currentReferral}} <mat-icon class="ml3">content_copy</mat-icon></div>
+  </div>
   <form [formGroup]="form" *ngIf="userIsHolder && view === 'NEW'">
     <mat-form-field>
-      <input matInput [formControlName]="'referralLink'" type="text" placeholder="Referral Link">
+      <input matInput [formControlName]="'referralLink'" type="text" placeholder="New referral">
     </mat-form-field>
   </form>
 
 </div>
 <div mat-dialog-actions>
   <div *ngIf="view === 'OLD'">
-    <button mat-button (click)="onClaimAirdrop()" cdkFocusInitial *ngIf="!userIsHolder">Übernehmen</button>
-    <button mat-button (click)="onLiberateAirdrop()" *ngIf="userIsHolder">Freigeben</button>
-    <button mat-button (click)="view = 'NEW'" *ngIf="userIsHolder">Weitergeben</button>
+    <button mat-button (click)="onClaimAirdrop()" cdkFocusInitial *ngIf="!userIsHolder">Claim</button>
+    <button mat-button (click)="onLiberateAirdrop()" *ngIf="userIsHolder">Release</button>
+    <button mat-button (click)="view = 'NEW'" *ngIf="userIsHolder">New</button>
   </div>
   <div *ngIf="userIsHolder && view === 'NEW'">
-    <button mat-button (click)="view = 'OLD'">zurück</button>
-    <button mat-button (click)="onReferralSave()">Speichern</button>
+    <button mat-button (click)="view = 'OLD'">Back</button>
+    <button mat-button (click)="onReferralSave()">Save</button>
   </div>
 
 </div>

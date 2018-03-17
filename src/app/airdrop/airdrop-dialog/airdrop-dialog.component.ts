@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { FormGroup, FormControl, Validators} from '@angular/forms';
-import {FirestoreService} from '../../shared/services/firestore.service';
-import {IAirdropHolder} from '../airdrop.interface';
+import { FirestoreService } from '../../shared/services/firestore.service';
+import { IAirdropHolder } from '../airdrop.interface';
+import { ClipboardService } from 'ngx-clipboard';
 
 @Component({
   selector: 'app-airdrop-dialog',
@@ -16,9 +17,11 @@ export class AirdropDialogComponent implements OnInit {
   public view: string = 'OLD';
 
   constructor(
-    public dialogRef: MatDialogRef<AirdropDialogComponent>,
-    public firestoreService: FirestoreService,
-    @Inject(MAT_DIALOG_DATA) public data: any
+      public dialogRef: MatDialogRef<AirdropDialogComponent>,
+      public firestoreService: FirestoreService,
+      private clipboardService: ClipboardService,
+      private snackBar: MatSnackBar,
+      @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     dialogRef.afterOpen().subscribe(() => {
       this.form = new FormGroup({
@@ -100,5 +103,11 @@ export class AirdropDialogComponent implements OnInit {
 
   onClose(): void {
     this.dialogRef.close();
+  }
+
+  onCopyClipboard(referralLink) {
+    this.clipboardService.copyFromContent(referralLink);
+    this.snackBar.open('Referral copied.', '', { duration: 2000 });
+
   }
 }

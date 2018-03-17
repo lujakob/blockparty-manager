@@ -19,4 +19,12 @@ app-airdrop-detail {
   .mat-card-header-text {
     margin: 0;
   }
+
+  .description {
+    line-height: 20px;
+  }
+
+  .button-row {
+    max-width: 400px;
+  }
 }

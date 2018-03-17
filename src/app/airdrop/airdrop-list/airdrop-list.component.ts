@@ -6,7 +6,7 @@ import 'rxjs/add/operator/switchMap';
 import { MatDialog } from '@angular/material';
 import { AuthService } from '../../auth/auth.service';
 import { User } from '../../user/user';
-import * as moment from 'moment';
+import { getHolderSince } from '../utils';
 
 @Component({
   selector: 'app-airdrop-list',
@@ -58,15 +58,7 @@ export class AirdropListComponent implements OnInit {
   }
 
   itemState(item) {
-    if (item.holder && item.holder.username) {
-      const now = new (moment as any)();
-      const created = new (moment as any)(item.holder.created);
-      const duration = Math.ceil(moment.duration(now.diff(created)).asMinutes());
-
-      return item.holder.username + ` (${duration} mins)`;
-    }
-
-    return 'open';
+    return getHolderSince(item, this.user, 'open');
   }
 
   onClick(airdrop) {

@@ -59,8 +59,8 @@ export class AirdropListComponent implements OnInit {
 
   itemState(item) {
     if (item.holder && item.holder.username) {
-      const now = new moment();
-      const created = new moment(item.holder.created);
+      const now = new (moment as any)();
+      const created = new (moment as any)(item.holder.created);
       const duration = Math.ceil(moment.duration(now.diff(created)).asMinutes());
 
       return item.holder.username + ` (${duration} mins)`;

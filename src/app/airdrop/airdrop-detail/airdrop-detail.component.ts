@@ -61,8 +61,8 @@ export class AirdropDetailComponent implements OnInit {
 
   isBlockedBy() {
     if (this.airdrop.holder && this.airdrop.holder.username) {
-      const now = new moment();
-      const created = new moment(this.airdrop.holder.created);
+      const now = new (moment as any)();
+      const created = new (moment as any)(this.airdrop.holder.created);
       const duration = Math.ceil(moment.duration(now.diff(created)).asMinutes());
 
       return this.airdrop.holder.username + ` (${duration} mins)`;

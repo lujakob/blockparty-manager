@@ -27,7 +27,8 @@ export class AirdropCreateComponent implements OnInit {
   public itemForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
     projectLink: new FormControl('', [Validators.required]),
-    referralLink: new FormControl('', [Validators.required])
+    referralLink: new FormControl('', [Validators.required]),
+    description: new FormControl(''),
   });
 
   constructor(
@@ -70,6 +71,7 @@ export class AirdropCreateComponent implements OnInit {
 
     return  {
       title: values.get('title').value,
+      description: values.get('description').value,
       projectLink: values.get('projectLink').value,
       currentReferral: this.itemForm.get('referralLink').value,
       creator: user,

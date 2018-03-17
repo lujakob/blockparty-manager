@@ -13,6 +13,7 @@ export interface IAirdrop {
   createdAt?: Date;
   updatedAt?: Date;
   title: string;
+  description?: string;
   projectLink: string;
   creator: IAirdropUser;
   holder?: IAirdropHolder;

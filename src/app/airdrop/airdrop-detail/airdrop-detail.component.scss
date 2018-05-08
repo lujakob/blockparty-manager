@@ -20,6 +20,17 @@ app-airdrop-detail {
     margin: 0;
   }
 
+  .info-row.title {
+    display: flex;
+
+    .label {
+      width: 80px;
+    }
+    .link {
+      width: calc(100% - 80px);
+    }
+  }
+
   .description {
     line-height: 20px;
     max-width: 600px;

@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { FormGroup, FormControl, Validators} from '@angular/forms';
 import { FirestoreService } from '../../shared/services/firestore.service';
-import { IAirdropHolder } from '../airdrop.interface';
+import { IAirdropHolder, IAirdropDialogData, IAirdrop } from '../airdrop.interface';
 import { ClipboardService } from 'ngx-clipboard';
 
 @Component({
@@ -21,8 +21,10 @@ export class AirdropDialogComponent implements OnInit {
       public firestoreService: FirestoreService,
       private clipboardService: ClipboardService,
       private snackBar: MatSnackBar,
-      @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
+      @Inject(MAT_DIALOG_DATA) public data: IAirdropDialogData) {
+
+    this.checkUserIsHolder();
+
     dialogRef.afterOpen().subscribe(() => {
       this.form = new FormGroup({
         referralLink: new FormControl('', Validators.required)
@@ -30,18 +32,18 @@ export class AirdropDialogComponent implements OnInit {
 
       this.firestoreService
         .doc$(`airdrops/${this.data.id}`)
-        .subscribe(airdrop => {
+        .subscribe((airdrop: IAirdrop) => {
           this.data.airdrop = Object.assign(airdrop, {id: this.data.id});
-          this.userIsHolder = !!this.data.airdrop.holder && this.data.user.uid === this.data.airdrop.holder.id;
-
+          this.checkUserIsHolder();
         });
 
     });
   }
 
-  ngOnInit() {
+  ngOnInit() {}
 
-
+  checkUserIsHolder() {
+    this.userIsHolder = !!this.data.airdrop.holder && this.data.user.uid === this.data.airdrop.holder.id;
   }
 
   onClaimAirdrop() {
@@ -60,9 +62,21 @@ export class AirdropDialogComponent implements OnInit {
 
     const referral = this.form.get('referralLink').value;
     if (referral) {
-      const airdropData = {holder: null, currentReferral: referral};
-      this.updateAirdrop(airdropData);
+      const participants = this.data.airdrop.participants;
+      const userId = this.data.user.uid;
 
+      if (! (userId in participants)) {
+        participants[userId] = true;
+      }
+
+
+      const airdropData = {
+        holder: null,
+        currentReferral: referral,
+        participants
+      };
+
+      this.updateAirdrop(airdropData);
 
       const ref = `airdrops/${this.data.airdrop.id}/referrals`;
       const referralData = {
@@ -74,7 +88,6 @@ export class AirdropDialogComponent implements OnInit {
         .then(() => {
           this.form.patchValue({referralLink: ''});
           this.dialogRef.close();
-          console.log('referral saved', referralData);
         })
         .catch((e) => console.log(e));
     }
@@ -93,7 +106,6 @@ export class AirdropDialogComponent implements OnInit {
     this.firestoreService
       .update(ref, data)
       .then(() => {
-        console.log('updated');
         if (closeDialog) {
           this.dialogRef.close();
         }
@@ -105,7 +117,7 @@ export class AirdropDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  onCopyClipboard(referralLink) {
+  onCopyClipboard(referralLink: string) {
     this.clipboardService.copyFromContent(referralLink);
     this.snackBar.open('Referral copied.', '', { duration: 2000 });
 

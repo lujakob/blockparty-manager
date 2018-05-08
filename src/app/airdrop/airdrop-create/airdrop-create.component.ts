@@ -75,11 +75,12 @@ export class AirdropCreateComponent implements OnInit {
       projectLink: values.get('projectLink').value,
       currentReferral: this.itemForm.get('referralLink').value,
       creator: user,
-      holder: user,
+      holder: null,
       active: true,
       createdAt: new Date(),
       updatedAt: new Date(),
-      state: AIRDROP_STATE.OPEN
+      state: AIRDROP_STATE.OPEN,
+      participants: {}
     };
   }
 

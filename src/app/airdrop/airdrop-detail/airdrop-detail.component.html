@@ -25,7 +25,10 @@
 <div class="pa3" *ngIf="airdrop">
   <mat-card>
     <mat-card-content class="mt4">
-      <div class="info-row">Project link: <a href="{{airdrop.projectLink}}" target="_blank">{{airdrop.projectLink}}</a></div>
+      <div class="info-row title">
+        <div class="label">Project link:</div>
+        <div class="link truncate"><a href="{{airdrop.projectLink}}" target="_blank">{{airdrop.projectLink}}</a></div>
+      </div>
       <div class="info-row mt2">Creator: {{airdrop.creator.username}}</div>
       <div class="info-row mt1">Created: {{airdrop.createdAt | date: 'dd.MM.yy'}}</div>
       <div class="info-row mt1" *ngIf="isBlockedBy()">Blocked by: {{isBlockedBy()}}</div>
@@ -66,5 +69,10 @@
       </div>
     </mat-card-content>
   </mat-card>
+  <div class="mt4">
+    <button mat-button (click)="backToList()">
+      <mat-icon>arrow_back</mat-icon> back to list
+    </button>
+  </div>
 
 </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { IAirdrop } from '../airdrop.interface';
+import { IAirdrop, IReferral } from '../airdrop.interface';
 import { AuthService } from '../../auth/auth.service';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { Router, ParamMap, ActivatedRoute } from '@angular/router';
@@ -20,8 +20,8 @@ import { getHolderSince } from '../utils';
 })
 export class AirdropDetailComponent implements OnInit {
 
-  public airdrop: any;
-  public referrals: any[];
+  public airdrop: IAirdrop;
+  public referrals: IReferral[];
   public user: User;
   private id: string;
   public blockedByOtherUser = false;
@@ -31,8 +31,8 @@ export class AirdropDetailComponent implements OnInit {
     private firestoreService: FirestoreService,
     private dialog: MatDialog,
     private auth: AuthService,
-    private route: ActivatedRoute
-  ) { }
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit() {
 
@@ -53,7 +53,7 @@ export class AirdropDetailComponent implements OnInit {
           this.firestoreService.doc$(`airdrops/${id}`)
         );
       })
-      .subscribe(([referrals, airdrop]) => {
+      .subscribe(([referrals, airdrop]: [IReferral[], IAirdrop]) => {
         this.referrals = referrals;
         this.airdrop = airdrop;
         this.blockedByOtherUser = !!this.airdrop.holder && this.airdrop.holder.id !== this.user.uid;
@@ -66,10 +66,10 @@ export class AirdropDetailComponent implements OnInit {
   }
 
 
-  onClick(airdrop) {
+  onClick(airdrop: IAirdrop) {
 
     const dialogRef = this.dialog.open(AirdropDialogComponent, {
-      width: '300px',
+      minWidth: '60%',
       data: {airdrop, user: this.user, id: this.id}
     });
 
@@ -93,5 +93,9 @@ export class AirdropDetailComponent implements OnInit {
     const active = !this.airdrop.active;
     const ref = `airdrops/${this.id}`;
     this.firestoreService.update(ref, {active});
+  }
+
+  backToList() {
+    this.router.navigate(['airdrop/list']);
   }
 }

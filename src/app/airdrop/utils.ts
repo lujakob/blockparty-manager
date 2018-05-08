@@ -14,7 +14,13 @@ export function getHolderSince(item, user, defaultReturn = '') {
     const hours = duration.hours();
     const minutes = duration.minutes();
 
-    return username + ' (' + (days ? days + 'd ' : '') + (hours ? hours + 'h ' : '') + (minutes ? minutes + 'm' : '') + ')';
+    let ret = username;
+
+    if (days > 0 || hours > 0 || minutes > 0) {
+      ret = ret + ' (' + (days ? days + 'd ' : '') + (hours ? hours + 'h ' : '') + (minutes ? minutes + 'm' : '') + ')';
+    }
+
+    return ret;
   }
 
   return defaultReturn;

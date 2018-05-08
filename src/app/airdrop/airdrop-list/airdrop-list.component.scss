@@ -3,5 +3,17 @@ app-airdrop-list {
     &.user-is-holder {
       background-color: #9FA8DA;
     }
+
+    .participated-icon {
+      display:inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: green;
+    }
+  }
+
+  .mat-column-participated {
+    text-align: center;
   }
 }

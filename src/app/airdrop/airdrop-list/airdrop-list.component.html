@@ -42,12 +42,18 @@
       <mat-cell *matCellDef="let element"> {{element.state}} </mat-cell>
     </ng-container>
 
+    <!-- Participated Column -->
+    <ng-container matColumnDef="participated">
+      <mat-header-cell *matHeaderCellDef>Done</mat-header-cell>
+      <mat-cell *matCellDef="let element"> <span class="participated-icon" *ngIf="element.participated"></span> </mat-cell>
+    </ng-container>
+
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;" [class.user-is-holder]="row.userIsHolder" (click)="onClick(row)"></mat-row>
   </mat-table>
 </ng-container>
 
-<ng-container *ngIf="!dataSource.length">
+<ng-container *ngIf="loaded && !dataSource.length">
   <div class="pa3">
     <p>No airdrops available.</p>
   </div>

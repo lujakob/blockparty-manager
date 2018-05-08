@@ -11,7 +11,16 @@
   margin-bottom: 8px;
 }
 
-.referral-link {
+.referral-link-container {
   display: flex;
+  flex-direction: row;
   cursor: pointer;
+}
+
+.referral-link {
+  width: calc(100% - 30px);
+}
+
+.clipboard-btn {
+  width: 30px;
 }

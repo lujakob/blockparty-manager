@@ -3,6 +3,7 @@ import { FirestoreService } from '../../shared/services/firestore.service';
 import { Router } from '@angular/router';
 import { IAirdrop } from '../airdrop.interface';
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/interval';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { MatDialog } from '@angular/material';
@@ -20,16 +21,16 @@ export class AirdropListComponent implements OnInit {
 
   private user: User;
 
-  public displayedColumns = ['title', 'creator', 'state'];
+  public displayedColumns = ['title', 'creator', 'state', 'participated'];
   public dataSource: IAirdrop[] = [];
   private active$: BehaviorSubject<boolean> = new BehaviorSubject(true);
+  public loaded: boolean = false;
 
   constructor(
     private firestoreService: FirestoreService,
     private router: Router,
     private dialog: MatDialog,
-    private auth: AuthService
-  ) { }
+    private auth: AuthService) { }
 
   ngOnInit() {
     Observable.combineLatest(
@@ -39,9 +40,13 @@ export class AirdropListComponent implements OnInit {
       this.user = user;
 
       const queryFn = ref => ref.where('active', '==', active).orderBy('createdAt', 'desc');
-      return this.firestoreService.colWithIds$('airdrops', queryFn);
+      return Observable.combineLatest(
+        this.firestoreService.colWithIds$('airdrops', queryFn),
+        Observable.interval(1000).startWith(0)
+      );
     })
-      .subscribe((data: IAirdrop[]) => {
+      .subscribe(([data, interval]: [IAirdrop[], any]) => {
+        this.loaded = true;
         this.dataSource = this.transformData(data);
       });
 
@@ -51,21 +56,26 @@ export class AirdropListComponent implements OnInit {
     return data.map(item => {
       item = Object.assign(item, {
         userIsHolder: this.userIsHolder(item),
+        participated: this.userParticipated(item),
         state: this.itemState(item)
       });
       return item;
     });
   }
 
-  userIsHolder(item) {
+  userParticipated(item: IAirdrop) {
+    return this.user.uid in item.participants;
+  }
+
+  userIsHolder(item: IAirdrop) {
     return !!item.holder && this.user.uid === item.holder.id;
   }
 
-  itemState(item) {
+  itemState(item: IAirdrop) {
     return getHolderSince(item, this.user, 'open');
   }
 
-  onClick(airdrop) {
+  onClick(airdrop: IAirdrop) {
     this.router.navigate(['airdrop/detail', airdrop.id]);
   }
 

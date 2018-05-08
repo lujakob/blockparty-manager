@@ -1,3 +1,5 @@
+import {User} from '../user/user';
+
 export interface IAirdropUser {
   id: string;
   username: string;
@@ -9,7 +11,12 @@ export interface IAirdropHolder {
   created?: Date;
 }
 
+interface Participants {
+  [key: string]: boolean;
+}
+
 export interface IAirdrop {
+  id?: string;
   createdAt?: Date;
   updatedAt?: Date;
   title: string;
@@ -21,6 +28,7 @@ export interface IAirdrop {
   referrals?: string;
   state: number;
   active: boolean;
+  participants: Participants;
 }
 
 
@@ -32,3 +40,12 @@ export interface IReferral {
   state: number;
 }
 
+export interface IAirdropDialogData {
+  airdrop: IAirdrop;
+  user: User;
+  id: string;
+}
+export interface IAirdropEditDialogData {
+  airdrop: IAirdrop;
+  id: string;
+}

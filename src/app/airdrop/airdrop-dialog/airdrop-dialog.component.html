@@ -1,4 +1,6 @@
-<button mat-button (click)="onClose()" class="close-btn"><mat-icon>close</mat-icon></button>
+<button mat-button (click)="onClose()" class="close-btn">
+  <mat-icon>close</mat-icon>
+</button>
 
 <div mat-dialog-content>
 
@@ -18,7 +20,7 @@
   <div *ngIf="view === 'OLD'">
     <button mat-button (click)="onClaimAirdrop()" cdkFocusInitial *ngIf="!userIsHolder">Claim</button>
     <button mat-button (click)="onLiberateAirdrop()" *ngIf="userIsHolder">Release</button>
-    <button mat-button (click)="view = 'NEW'" *ngIf="userIsHolder">New</button>
+    <button mat-button (click)="view = 'NEW'" *ngIf="userIsHolder">Update</button>
   </div>
   <div *ngIf="userIsHolder && view === 'NEW'">
     <button mat-button (click)="view = 'OLD'">Back</button>

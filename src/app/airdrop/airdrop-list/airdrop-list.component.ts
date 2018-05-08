@@ -3,6 +3,8 @@ import { FirestoreService } from '../../shared/services/firestore.service';
 import { Router } from '@angular/router';
 import { IAirdrop } from '../airdrop.interface';
 import 'rxjs/add/operator/switchMap';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 import { MatDialog } from '@angular/material';
 import { AuthService } from '../../auth/auth.service';
 import { User } from '../../user/user';
@@ -20,6 +22,7 @@ export class AirdropListComponent implements OnInit {
 
   public displayedColumns = ['title', 'creator', 'state'];
   public dataSource: IAirdrop[] = [];
+  private active$: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
   constructor(
     private firestoreService: FirestoreService,
@@ -29,14 +32,15 @@ export class AirdropListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.auth.user
-      .switchMap((user: User) => {
-        this.user = user;
-        return this.firestoreService.colWithIds$(
-          'airdrops',
-          ref => ref.orderBy('createdAt', 'desc')
-        );
-      })
+    Observable.combineLatest(
+      this.auth.user,
+      this.active$
+    ).switchMap(([user, active]: [User, boolean]) => {
+      this.user = user;
+
+      const queryFn = ref => ref.where('active', '==', active).orderBy('createdAt', 'desc');
+      return this.firestoreService.colWithIds$('airdrops', queryFn);
+    })
       .subscribe((data: IAirdrop[]) => {
         this.dataSource = this.transformData(data);
       });
@@ -63,6 +67,10 @@ export class AirdropListComponent implements OnInit {
 
   onClick(airdrop) {
     this.router.navigate(['airdrop/detail', airdrop.id]);
+  }
+
+  toggleActive(active: any) {
+    this.active$.next(active.value === 'true');
   }
 
 }

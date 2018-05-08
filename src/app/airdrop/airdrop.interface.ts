@@ -20,6 +20,7 @@ export interface IAirdrop {
   currentReferral: string;
   referrals?: string;
   state: number;
+  active: boolean;
 }
 
 

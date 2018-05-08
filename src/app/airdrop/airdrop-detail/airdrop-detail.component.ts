@@ -11,7 +11,6 @@ import 'rxjs/add/operator/combineLatest';
 import 'rxjs/add/operator/switchMap';
 import { getHolderSince } from '../utils';
 
-
 @Component({
   selector: 'app-airdrop-detail',
   templateUrl: './airdrop-detail.component.html',
@@ -76,5 +75,15 @@ export class AirdropDetailComponent implements OnInit {
     dialogRef.afterClosed().subscribe((data) => {
       console.log(data);
     });
+  }
+
+  edit() {
+
+  }
+
+  toggleStatus() {
+    const active = !this.airdrop.active;
+    const ref = `airdrops/${this.id}`;
+    this.firestoreService.update(ref, {active});
   }
 }

@@ -1,7 +1,26 @@
 <mat-toolbar>
   <span>{{airdrop?.title}}</span>
   <span class="fill-remaining-space"></span>
-  <mat-icon class="example-icon">edit</mat-icon>
+
+  <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="airdrop">
+    <mat-icon>more_horiz</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="edit()">
+      <mat-icon>edit</mat-icon>
+      <span>Edit</span>
+    </button>
+    <button mat-menu-item (click)="toggleStatus()">
+      <ng-container *ngIf="airdrop?.active">
+        <mat-icon>archive</mat-icon>
+        <span>Archive</span>
+      </ng-container>
+      <ng-container *ngIf="!airdrop?.active">
+        <mat-icon>archive</mat-icon>
+        <span>Activate</span>
+      </ng-container>
+    </button>
+  </mat-menu>
 </mat-toolbar>
 <div class="pa3" *ngIf="airdrop">
   <mat-card>

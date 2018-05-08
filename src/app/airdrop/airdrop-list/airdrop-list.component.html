@@ -1,11 +1,20 @@
 <mat-toolbar>
   <button mat-button routerLink="/airdrop/create">
     <mat-icon>add_circle</mat-icon>
-    <span>Create airdrop</span>
+    <span>New</span>
   </button>
-  <span class="fill-remaining-space"></span>
-</mat-toolbar>
 
+  <span class="fill-remaining-space"></span>
+
+  <mat-button-toggle-group #group="matButtonToggleGroup" (change)="toggleActive($event)" >
+    <mat-button-toggle value="true" [checked]="true">
+      Active
+    </mat-button-toggle>
+    <mat-button-toggle value="false">
+      Archive
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+</mat-toolbar>
 
 <ng-container *ngIf="dataSource.length">
   <mat-table #table [dataSource]="dataSource">
@@ -29,7 +38,7 @@
 
     <!-- State Column -->
     <ng-container matColumnDef="state">
-      <mat-header-cell *matHeaderCellDef> State </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> Blocked </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.state}} </mat-cell>
     </ng-container>
 

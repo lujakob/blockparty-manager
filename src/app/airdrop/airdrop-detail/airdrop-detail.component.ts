@@ -5,7 +5,8 @@ import { AuthService } from '../../auth/auth.service';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { Router, ParamMap, ActivatedRoute } from '@angular/router';
 import { User } from '../../user/user';
-import {AirdropDialogComponent} from '../airdrop-dialog/airdrop-dialog.component';
+import { AirdropDialogComponent } from '../airdrop-dialog/airdrop-dialog.component';
+import { AirdropEditDialogComponent } from '../airdrop-edit-dialog/airdrop-edit-dialog.component';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/combineLatest';
 import 'rxjs/add/operator/switchMap';
@@ -78,7 +79,14 @@ export class AirdropDetailComponent implements OnInit {
   }
 
   edit() {
+    const dialogRef = this.dialog.open(AirdropEditDialogComponent, {
+      minWidth: '60%',
+      data: {airdrop: this.airdrop, id: this.id}
+    });
 
+    dialogRef.afterClosed().subscribe((data) => {
+      console.log(data);
+    });
   }
 
   toggleStatus() {

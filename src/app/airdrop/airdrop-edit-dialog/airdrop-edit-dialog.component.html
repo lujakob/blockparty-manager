@@ -1,0 +1,24 @@
+<button mat-button (click)="cancel()" class="close-btn">
+  <mat-icon>close</mat-icon>
+</button>
+
+<div mat-dialog-content>
+  <form [formGroup]="form" *ngIf="form">
+    <mat-form-field>
+      <input matInput [formControlName]="'title'" type="text" placeholder="Title">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [formControlName]="'projectLink'" type="text" placeholder="Project link">
+    </mat-form-field>
+    <mat-form-field>
+      <textarea matInput minRows="14" matAutosizeMinRows="14" [formControlName]="'description'"placeholder="Title"></textarea>
+    </mat-form-field>
+
+  </form>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-button (click)="save()">Save</button>
+
+</div>

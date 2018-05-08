@@ -25,23 +25,26 @@
 <div class="pa3" *ngIf="airdrop">
   <mat-card>
     <mat-card-content class="mt4">
-      <div class="info-row">Creator: {{airdrop.creator.username}}</div>
+      <div class="info-row">Project link: <a href="{{airdrop.projectLink}}" target="_blank">{{airdrop.projectLink}}</a></div>
+      <div class="info-row mt2">Creator: {{airdrop.creator.username}}</div>
       <div class="info-row mt1">Created: {{airdrop.createdAt | date: 'dd.MM.yy'}}</div>
       <div class="info-row mt1" *ngIf="isBlockedBy()">Blocked by: {{isBlockedBy()}}</div>
     </mat-card-content>
   </mat-card>
 
-  <div class="button-row mt4">
-    <div *ngIf="!blockedByOtherUser">
-      <button mat-raised-button class="w-100" (click)="onClick(airdrop)">
-        <span *ngIf="blockedByMe">Update referral state</span>
-        <span *ngIf="!blockedByMe">Claim latest referral</span>
-      </button>
-    </div>
-    <div *ngIf="blockedByOtherUser" class="ph2">
-      Currently blocked by {{isBlockedBy()}}
-    </div>
-  </div>
+  <mat-card class="mt4 tc">
+    <mat-card-content class="mt4">
+      <div *ngIf="!blockedByOtherUser">
+        <button mat-raised-button class="w-100" (click)="onClick(airdrop)">
+          <span *ngIf="blockedByMe">Update referral state</span>
+          <span *ngIf="!blockedByMe">Claim latest referral</span>
+        </button>
+      </div>
+      <div *ngIf="blockedByOtherUser" class="b">
+        Currently blocked by {{isBlockedBy()}}
+      </div>
+    </mat-card-content>
+  </mat-card>
 
   <mat-card *ngIf="airdrop.description" class="mt4">
     <mat-card-header>
@@ -54,7 +57,7 @@
 
   <mat-card *ngIf="referrals.length" class="mt4">
     <mat-card-header>
-      Referrals
+      List of referrals
     </mat-card-header>
     <mat-card-content class="mt4">
       <div class="referral-item pb2 mb2" *ngFor="let referral of referrals">

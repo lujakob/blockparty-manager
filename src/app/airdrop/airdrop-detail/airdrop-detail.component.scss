@@ -22,9 +22,14 @@ app-airdrop-detail {
 
   .description {
     line-height: 20px;
+    max-width: 600px;
   }
 
-  .button-row {
-    max-width: 400px;
+  button {
+    max-width: 300px;
+  }
+
+  a {
+    color: inherit;
   }
 }

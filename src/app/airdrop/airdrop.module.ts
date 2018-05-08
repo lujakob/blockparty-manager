@@ -8,6 +8,7 @@ import { AirdropCreateComponent } from './airdrop-create/airdrop-create.componen
 import { AirdropDialogComponent } from './airdrop-dialog/airdrop-dialog.component';
 import { AirdropDetailComponent } from './airdrop-detail/airdrop-detail.component';
 import { ClipboardModule } from 'ngx-clipboard';
+import { AirdropEditDialogComponent } from './airdrop-edit-dialog/airdrop-edit-dialog.component';
 
 @NgModule({
   imports: [
@@ -16,7 +17,7 @@ import { ClipboardModule } from 'ngx-clipboard';
     AirdropRoutingModule,
     ClipboardModule
   ],
-  declarations: [AirdropListComponent, AirdropCreateComponent, AirdropDialogComponent, AirdropDetailComponent],
-  entryComponents: [AirdropDialogComponent]
+  declarations: [AirdropListComponent, AirdropCreateComponent, AirdropDialogComponent, AirdropEditDialogComponent, AirdropDetailComponent],
+  entryComponents: [AirdropDialogComponent, AirdropEditDialogComponent]
 })
 export class AirdropModule { }

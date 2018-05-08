@@ -1,0 +1,11 @@
+.close-btn {
+  position: absolute;
+  top:0;
+  right: 0;
+  min-width: 50px;
+  padding: 0;
+}
+
+.mat-form-field {
+  display: block;
+}

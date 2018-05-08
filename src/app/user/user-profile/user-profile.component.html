@@ -1,45 +1,27 @@
 <mat-button-toggle-group #group="matButtonToggleGroup" (change)="switchContent($event)" >
 	<mat-button-toggle value="REQUESTS" [checked]="true">
-		Anfragen
+		Profile
 	</mat-button-toggle>
-	<mat-button-toggle value="ASSETS">
-		Meine Assets
+	<mat-button-toggle value="AIRDROPS">
+		My airdrops
 	</mat-button-toggle>
 </mat-button-toggle-group>
 
-<ng-template [ngIf]="group.value === 'ASSETS'">
-	<mat-table #table [dataSource]="assets">
+<ng-template [ngIf]="group.value === 'REQUESTS'">
+  <mat-card>
+    <mat-card-header>
+      Profile
+    </mat-card-header>
+    <mat-card-content class="mt4 description">
+      <div class="mt1">{{user?.displayName}}</div>
+      <div class="mt1">{{user?.email}}</div>
 
-		<!-- Name Column -->
-		<ng-container matColumnDef="title">
-			<mat-header-cell *matHeaderCellDef> Titel </mat-header-cell>
-			<mat-cell *matCellDef="let element" (click)="onClick(element)"> {{element.title}} </mat-cell>
-		</ng-container>
+    </mat-card-content>
+  </mat-card>
 
-		<!-- Category Column -->
-		<ng-container matColumnDef="category">
-			<mat-header-cell *matHeaderCellDef> Kategorie </mat-header-cell>
-			<mat-cell *matCellDef="let element" (click)="onClick(element)"> {{element.category.title}} </mat-cell>
-		</ng-container>
-
-		<!-- Holder Column -->
-		<ng-container matColumnDef="holder">
-			<mat-header-cell *matHeaderCellDef> Besitzer </mat-header-cell>
-			<mat-cell *matCellDef="let element" (click)="onClick(element)"> {{element.holder.name}} </mat-cell>
-		</ng-container>
-
-		<!-- Delete Column -->
-		<ng-container matColumnDef="delete">
-			<mat-header-cell *matHeaderCellDef>  </mat-header-cell>
-			<mat-cell *matCellDef="let element"><mat-icon (click)="delete(element)" [class.is-disabled]="isDisabled(element)">delete</mat-icon></mat-cell>
-		</ng-container>
-
-		<mat-header-row *matHeaderRowDef="assetsColumns"></mat-header-row>
-		<mat-row *matRowDef="let row; columns: assetsColumns;"></mat-row>
-	</mat-table>
 </ng-template>
 
-<ng-template [ngIf]="group.value === 'REQUESTS'">
+<ng-template [ngIf]="group.value === 'AIRDROPS'">
 	<mat-table #table [dataSource]="requests">
 
 		<!-- Name Column -->

@@ -16,4 +16,8 @@ app-user-profile {
   .mat-icon.is-disabled {
     opacity: 0.2;
   }
+
+  .mat-card-header-text {
+    margin: 0;
+  }
 }

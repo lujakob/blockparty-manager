@@ -6,7 +6,7 @@ import { UserRoutingModule } from './user-routing.module';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '../shared/material.module';
-import {DeleteAssetDialog, UserProfileComponent} from './user-profile/user-profile.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserRegisterComponent } from './user-register/user-register.component';
 
 @NgModule({
@@ -18,7 +18,7 @@ import { UserRegisterComponent } from './user-register/user-register.component';
     MaterialModule,
     UserRoutingModule
   ],
-  declarations: [UserLoginComponent, UserProfileComponent, UserRegisterComponent, DeleteAssetDialog],
-  entryComponents: [DeleteAssetDialog]
+  declarations: [UserLoginComponent, UserProfileComponent, UserRegisterComponent],
+  entryComponents: []
 })
 export class UserModule { }

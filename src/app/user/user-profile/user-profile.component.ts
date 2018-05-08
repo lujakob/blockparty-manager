@@ -15,7 +15,7 @@ import 'rxjs/add/operator/switchMap';
 })
 export class UserProfileComponent implements OnInit {
 
-  private user: User;
+  public user: User;
   public requests = [];
   public assets = [];
   public requestsColumns = ['inventoryTitle'];
@@ -34,34 +34,25 @@ export class UserProfileComponent implements OnInit {
       .subscribe((user: User) => {
         this.user = user;
 
-        this.loadRequests(user);
-        this.loadMyAssets(user);
+        //this.loadMyAirdrops(user);
 
       });
 
   }
 
-  loadRequests(user: User) {
-    if (!user) return;
-
-    const ref = `users/${user.uid}/pending-requests`;
-    this.firestoreService
-      .colWithIds$(ref, ref => ref.orderBy('createdAt', 'desc'))
-      .subscribe(data => {
-        this.requests = data;
-      });
-  }
 
   /**
-   * load current users assets
+   * load current users airdrops
    * @param {User} user
    */
-  loadMyAssets(user: User) {
-    if (!user) return;
+  loadMyAirdrops(user: User) {
+    if (!user) {
+      return;
+    };
 
-    const ref = `inventory`;
+    const ref = `airdrops`;
     this.firestoreService
-      .colWithIds$(ref, ref => ref.where('owner.id', '==', user.uid))
+      .colWithIds$(ref, (queryFn) => queryFn.where('owner.id', '==', user.uid))
       .subscribe(data => this.assets = data);
   }
 
@@ -70,81 +61,9 @@ export class UserProfileComponent implements OnInit {
   }
 
   onClick(row) {
-    this.router.navigate(['inventory', row.id])
+    this.router.navigate(['inventory', row.id]);
   }
 
-  delete(row) {
-    if (this.isDisabled(row)) {
-      this.snackBar.open('Das Asset kann nicht gelöscht werden, weil es verliehen ist.', null,{
-        duration: 3000,
-      });
-    } else {
-      let dialogRef = this.dialog.open(DeleteAssetDialog, {
-        width: '250px',
-        data: { row }
-      });
 
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          this.doDelete(row);
-        }
-      });
-
-    }
-  }
-
-  doDelete(row) {
-
-    // delete requests subcollection of this asset document
-    const requestsRef = `inventory/${row.id}/requests`;
-    this.firestoreService.deleteCollection(requestsRef, 10).subscribe();
-
-    // delete pending-requests collection of the owner document
-    const pendingRequestRef = `users/${this.user.uid}/pending-requests/${row.id}`;
-    this.firestoreService
-      .delete(pendingRequestRef)
-      .catch(e => console.log(e));
-
-    // delete inventory document itself
-    const assetRef = `inventory/${row.id}`;
-    this.firestoreService
-      .delete(assetRef)
-      .then(() => {
-        this.snackBar.open('Das Asset wurde erfolgreich gelöscht.', null,{
-          duration: 3000,
-        });
-      })
-      .catch(e => console.log(e));
-
-  }
-
-  isDisabled({holder, owner}) {
-    return holder.id !== owner.id;
-  }
 }
 
-@Component({
-  selector: 'asset-delete-dialog',
-  template: `
-		<h1 mat-dialog-title>Asset löschen?</h1>
-		<div mat-dialog-content>
-			<p>{{data.row.category.title}} - {{data.row.title}}<br> wirklich löschen?</p>
-		</div>
-		<div mat-dialog-actions>
-			<button mat-button (click)="onNoClick()">No Thanks</button>
-			<button mat-button [mat-dialog-close]="true" cdkFocusInitial>Ok</button>
-		</div>
-  `,
-})
-export class DeleteAssetDialog {
-
-  constructor(
-    public dialogRef: MatDialogRef<DeleteAssetDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close(false);
-  }
-
-}

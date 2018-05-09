@@ -66,10 +66,11 @@ export class AirdropCreateComponent implements OnInit {
   }
 
   buildAirdrop(): IAirdrop {
+    const userId = this.user.uid;
     const values = this.itemForm;
-    const user = {id: this.user.uid, username: this.user.displayName};
+    const user = {id: userId, username: this.user.displayName};
     const participants = {};
-    participants[this.user.uid] = true;
+    participants[userId] = true;
 
     return {
       title: values.get('title').value,

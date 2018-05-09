@@ -26,7 +26,7 @@ export class AirdropCreateComponent implements OnInit {
 
   public itemForm = new FormGroup({
     title: new FormControl('', [Validators.required]),
-    projectLink: new FormControl('', [Validators.required]),
+    projectLink: new FormControl(''),
     referralLink: new FormControl('', [Validators.required]),
     description: new FormControl(''),
   });
@@ -68,8 +68,10 @@ export class AirdropCreateComponent implements OnInit {
   buildAirdrop(): IAirdrop {
     const values = this.itemForm;
     const user = {id: this.user.uid, username: this.user.displayName};
+    const participants = {};
+    participants[this.user.uid] = true;
 
-    return  {
+    return {
       title: values.get('title').value,
       description: values.get('description').value,
       projectLink: values.get('projectLink').value,
@@ -80,7 +82,7 @@ export class AirdropCreateComponent implements OnInit {
       createdAt: new Date(),
       updatedAt: new Date(),
       state: AIRDROP_STATE.OPEN,
-      participants: {}
+      participants
     };
   }
 

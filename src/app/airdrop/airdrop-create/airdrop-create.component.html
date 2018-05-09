@@ -21,17 +21,17 @@
 				</mat-error>
 			</mat-form-field>
 
-			<mat-form-field>
-				<input matInput placeholder="Projekt Link" formControlName="projectLink" required>
-				<mat-error *ngIf="itemForm.get('projectLink').hasError('required')">
-					Bitte Projekt Link ausfüllen.
-				</mat-error>
-			</mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Referral Link" formControlName="referralLink" required>
+        <mat-error *ngIf="itemForm.get('referralLink').hasError('required')">
+          Bitte Referral Link ausfüllen.
+        </mat-error>
+      </mat-form-field>
 
 			<mat-form-field>
-				<input matInput placeholder="Referral Link" formControlName="referralLink" required>
-				<mat-error *ngIf="itemForm.get('referralLink').hasError('required')">
-					Bitte Referral Link ausfüllen.
+				<input matInput placeholder="Projekt Link" formControlName="projectLink">
+				<mat-error *ngIf="itemForm.get('projectLink').hasError('required')">
+					Bitte Projekt Link ausfüllen.
 				</mat-error>
 			</mat-form-field>
 
